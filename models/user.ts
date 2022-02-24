@@ -34,7 +34,7 @@ const userSchema = new Schema(
     stripe_seller: {},
     stripeSession: {},
   },
-  { timestamps: true }
+  { timestamps: true, collection: "ts-auth" }
 );
 
 export default mongoose.model("User", userSchema);
