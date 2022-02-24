@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { Document } from "mongodb";
 import User from "../models/user";
-import { hashPassword } from "../utils/auth";
+import { hashPassword, comparePassword } from "../utils/auth";
+import jwt, { Secret } from "jsonwebtoken";
 
 export const registerUser = async (
   req: Request,
@@ -23,13 +24,13 @@ export const registerUser = async (
       return res.status(400).send("Invalid password");
 
     const isEmailInUse = !!(await User.findOne({ email }).exec());
+
     if (isEmailInUse)
       return res
         .status(400)
         .send({ success: false, payload: "Email already in use" });
 
     const hashedPassword: string | unknown = await hashPassword(password);
-
     const user: Document = await new User({
       name,
       email,
@@ -38,6 +39,45 @@ export const registerUser = async (
 
     return res.status(200).json({ success: true, payload: user });
   } catch (err) {
+    return res
+      .status(400)
+      .send({ success: false, payload: "Error. Try again" });
+  }
+};
+
+export const loginUser = async (
+  req: Request,
+  res: Response
+): Promise<Response<Document | { success: boolean; payload: string }>> => {
+  try {
+    const { email, password } = await req.body;
+
+    const user: Document = await User.findOne({ email }).exec();
+    if (!user)
+      return res.status(400).send({ success: false, payload: "Invalid email" });
+
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid)
+      return res
+        .status(400)
+        .send({ success: false, payload: "Wrong password" });
+
+    const token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET as Secret,
+      { expiresIn: "7d" }
+    );
+
+    user.password = undefined;
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      // secure: true
+    });
+
+    return res.json(user);
+  } catch (err) {
+    console.log(err);
     return res
       .status(400)
       .send({ success: false, payload: "Error. Try again" });
