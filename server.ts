@@ -1,9 +1,13 @@
-import express from "express";
 import cors from "cors";
-import fs from "fs";
+import express from "express";
+import mongoose from "mongoose";
 const morgan = require("morgan");
-const path = require("path");
 require("dotenv").config();
+
+mongoose
+  .connect(process.env.MONGODB_URI as string)
+  .then(() => console.log("DB connected"))
+  .catch((err) => console.log("DB Error => ", err));
 
 const app = express();
 
@@ -16,17 +20,7 @@ app.use((_, __, next) => {
   next();
 });
 
-fs.readdirSync("./dist/routes").map((r) =>
-  app.use("/api", () => {
-    //   map files without .map extension
-    const updatedFileName = r.substring(0, r.length - 3);
-    console.log(updatedFileName);
-    if (path.extname(r) !== ".map") require(`./routes/${updatedFileName}`);
-  })
-);
-
-// const file = fs.readdirSync("./dist/routes");
-// console.log(file);
+app.use("/api/auth", require("./routes/auth"));
 
 const PORT = process.env.PORT || 8000;
 
