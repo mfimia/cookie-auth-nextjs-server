@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon -r esm ./dist/server.js",
-    "start": "node ./dist/server.js"
+    "start": "node ./dist/server.js",
+    "postinstall": "tsc",
+    "deploy": "git add . && git commit -m\"prepare for deploy\" && git push && git push heroku main"
   },
   "keywords": [],
   "author": "",
