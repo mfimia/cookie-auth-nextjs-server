@@ -96,7 +96,7 @@ export const logoutUser = async (
 };
 
 export const currentUser = async (
-  req: Request,
+  req: any,
   res: Response
 ): Promise<Response<{ ok: boolean }>> => {
   try {
