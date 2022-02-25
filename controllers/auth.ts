@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import jwt, { Secret } from "jsonwebtoken";
 import { Document } from "mongodb";
 import User from "../models/user";
-import { hashPassword, comparePassword } from "../utils/auth";
-import jwt, { Secret } from "jsonwebtoken";
+import { comparePassword, hashPassword } from "../utils/auth";
 
 export const registerUser = async (
   req: Request,
