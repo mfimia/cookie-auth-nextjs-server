@@ -77,7 +77,6 @@ export const loginUser = async (
 
     return res.json(user);
   } catch (err) {
-    console.log(err);
     return res
       .status(400)
       .send({ success: false, payload: "Error. Try again" });
@@ -93,5 +92,17 @@ export const logoutUser = async (
     return res.status(200).send({ succes: true, payload: "Goodbye!" });
   } catch (err) {
     return res.send({ success: false, payload: "Server error" });
+  }
+};
+
+export const currentUser = async (
+  req: Request,
+  res: Response
+): Promise<Response<{ ok: boolean }>> => {
+  try {
+    await User.findById(req.user!._id).select("-password").exec();
+    return res.json({ ok: true });
+  } catch (err) {
+    return res.json({ ok: false });
   }
 };
