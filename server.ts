@@ -1,8 +1,12 @@
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
+import csrf from "csurf";
+import cookieParser from "cookie-parser";
 const morgan = require("morgan");
 require("dotenv").config();
+
+const csrfProtection = csrf({ cookie: true });
 
 mongoose
   .connect(process.env.MONGODB_URI as string)
@@ -14,13 +18,16 @@ const app = express();
 // middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan("dev"));
-app.use((_, __, next) => {
-  console.log("this is my own middleware");
-  next();
-});
 
 app.use("/api/auth", require("./routes/auth"));
+
+app.use(csrfProtection);
+
+app.get("/api/csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 const PORT = process.env.PORT || 8000;
 
