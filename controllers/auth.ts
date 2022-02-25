@@ -99,9 +99,6 @@ export const currentUser = async (
   req: Request,
   res: Response
 ): Promise<Response<{ ok: boolean }>> => {
-  console.log("hi there");
-  console.log("ID", req.user?._id);
-  console.log(req.user);
   try {
     await User.findById(req.user!._id).select("-password").exec();
     return res.json({ ok: true });
