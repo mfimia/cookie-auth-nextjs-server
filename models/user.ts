@@ -1,9 +1,11 @@
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    _id: ObjectId,
     name: {
       type: String,
       trim: true,
