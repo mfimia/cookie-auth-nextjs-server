@@ -83,3 +83,15 @@ export const loginUser = async (
       .send({ success: false, payload: "Error. Try again" });
   }
 };
+
+export const logoutUser = async (
+  _: Request,
+  res: Response
+): Promise<Response<{ success: boolean; payload: string }>> => {
+  try {
+    res.clearCookie("token");
+    return res.status(200).send({ succes: true, payload: "Goodbye!" });
+  } catch (err) {
+    return res.send({ success: false, payload: "Server error" });
+  }
+};
