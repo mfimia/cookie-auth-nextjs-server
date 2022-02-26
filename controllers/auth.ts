@@ -71,7 +71,7 @@ export const loginUser = async (
     user.password = undefined;
 
     res.cookie("token", token, {
-      httpOnly: true,
+      // httpOnly: true,
       secure: true,
     });
 
@@ -103,7 +103,6 @@ export const currentUser = async (
     await User.findById(req.user!._id).select("-password").exec();
     return res.json({ ok: true });
   } catch (err) {
-    console.log("failed");
     return res.json({ ok: false });
   }
 };
