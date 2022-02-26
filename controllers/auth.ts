@@ -72,7 +72,7 @@ export const loginUser = async (
 
     res.cookie("token", token, {
       httpOnly: true,
-      // secure: true
+      secure: true,
     });
 
     return res.json(user);
