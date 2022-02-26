@@ -71,8 +71,8 @@ export const loginUser = async (
     user.password = undefined;
 
     res.cookie("token", token, {
-      // httpOnly: true,
-      secure: true,
+      httpOnly: true,
+      // secure: true,
     });
 
     return res.json(user);
