@@ -49,6 +49,7 @@ export const loginUser = async (
   req: Request,
   res: Response
 ): Promise<Response<Document | { success: boolean; payload: string }>> => {
+  console.log(req.headers);
   try {
     const { email, password } = await req.body;
 
