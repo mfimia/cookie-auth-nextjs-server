@@ -18,7 +18,12 @@ const app = express();
 app.set("trust proxy", 1);
 
 // middlewares
-app.use(cors({ credentials: true }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://cookie-auth-nextjs-client.vercel.app/",
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
