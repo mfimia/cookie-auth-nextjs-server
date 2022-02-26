@@ -21,7 +21,7 @@ app.set("trust proxy", 1);
 app.use(
   cors({
     credentials: true,
-    origin: "https://cookie-auth-nextjs-client.vercel.app/",
+    origin: "https://cookie-auth-nextjs-client.vercel.app",
   })
 );
 app.use(express.json());
