@@ -18,7 +18,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 // middlewares
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
