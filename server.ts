@@ -15,6 +15,8 @@ mongoose
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 // middlewares
 app.use(cors());
 app.use(express.json());
