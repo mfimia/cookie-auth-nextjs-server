@@ -74,6 +74,7 @@ export const loginUser = async (
       httpOnly: false,
       secure: true,
       sameSite: "none",
+      domain: "vercel.app",
     });
 
     return res.json(user);
