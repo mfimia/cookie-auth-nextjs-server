@@ -20,10 +20,10 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use(csrfProtection);
 
 app.use("/api/auth", require("./routes/auth"));
 
+app.use(csrfProtection);
 app.get("/api/csrf-token", (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
