@@ -32,6 +32,7 @@ app.use("/api/auth", require("./routes/auth"));
 
 app.use(csrfProtection);
 app.get("/api/csrf-token", (req, res) => {
+  console.log("CSRF-TOKEN:", req.csrfToken());
   res.json({ csrfToken: req.csrfToken() });
 });
 
